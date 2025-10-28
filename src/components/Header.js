@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
-import ThemeToggle from './ThemeToggle';
+import { useTema } from '../context/ContextoTema';
+import ThemeToggle from './InterruptorTema';
 
-const Header = ({ title }) => {
-  const { theme } = useTheme();
+const Encabezado = ({ title }) => {
+  const { tema } = useTema();
 
   return (
-    <View style={[styles.header, { backgroundColor: theme.header }]}>
-      <Text style={[styles.headerText, { color: theme.headerText }]}>
+    <View style={[styles.header, { backgroundColor: tema.header }]}>
+      <Text style={[styles.headerText, { color: tema.headerText }]}>
         {title}
       </Text>
       <ThemeToggle />
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Header;
+export default Encabezado;

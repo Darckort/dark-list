@@ -1,10 +1,10 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 // Jefes de Dark Souls 
-const bossesSlice = createSlice({
-  name: 'bosses',
+const jefesSlice = createSlice({
+  name: 'jefes',
   initialState: {
-    bosses: [
+    jefes: [
       {
         id: '1',
         name: 'Demonio del Refugio',
@@ -98,24 +98,24 @@ const bossesSlice = createSlice({
     ]
   },
   reducers: {
-    addBoss: (state, action) => {
+    agregarJefe: (state, action) => {
       const newBoss = {
         ...action.payload,
         id: Date.now().toString()
       };
-      state.bosses.push(newBoss);
+      state.jefes.push(newBoss);
     },
-    updateBoss: (state, action) => {
-      const index = state.bosses.findIndex(boss => boss.id === action.payload.id);
+    actualizarJefe: (state, action) => {
+      const index = state.jefes.findIndex(boss => boss.id === action.payload.id);
       if (index !== -1) {
-        state.bosses[index] = action.payload;
+        state.jefes[index] = action.payload;
       }
     },
-    deleteBoss: (state, action) => {
-      state.bosses = state.bosses.filter(boss => boss.id !== action.payload);
+    eliminarJefe: (state, action) => {
+      state.jefes = state.jefes.filter(boss => boss.id !== action.payload);
     },
-    toggleBossCompletion: (state, action) => {
-      const boss = state.bosses.find(boss => boss.id === action.payload);
+    alternarJefeCompletado: (state, action) => {
+      const boss = state.jefes.find(boss => boss.id === action.payload);
       if (boss) {
         boss.completed = !boss.completed;
         if (boss.completed && boss.attempts === 0) {
@@ -123,8 +123,8 @@ const bossesSlice = createSlice({
         }
       }
     },
-    incrementAttempts: (state, action) => {
-      const boss = state.bosses.find(boss => boss.id === action.payload);
+    incrementarIntentos: (state, action) => {
+      const boss = state.jefes.find(boss => boss.id === action.payload);
       if (boss) {
         boss.attempts += 1;
       }
@@ -139,10 +139,10 @@ const checkAllAchievementsCompleted = (achievements) => {
 };
 
 // Logros de Dark Souls (lista completa + Añadidos nuevos logros)
-const achievementsSlice = createSlice({
-  name: 'achievements',
+const logrosSlice = createSlice({
+  name: 'logros',
   initialState: {
-    achievements: [
+    logros: [
       {
         id: '1',
         title: 'Alma Oscura',
@@ -356,9 +356,9 @@ const achievementsSlice = createSlice({
     ]
   },
   reducers: {
-    toggleAchievement: (state, action) => {
+    alternarLogro: (state, action) => {
       const achievementId = action.payload;
-      const achievement = state.achievements.find(ach => ach.id === achievementId);
+      const achievement = state.logros.find(ach => ach.id === achievementId);
       
       if (achievement) {
         // No permitir desmarcar Alma Oscura manualmente
@@ -370,8 +370,8 @@ const achievementsSlice = createSlice({
         
         // Verificar si todos los logros (excepto Alma Oscura) están completados ya que ese se completa automáticamente
         if (achievementId !== '1') {
-          const allCompleted = checkAllAchievementsCompleted(state.achievements);
-          const darkSoulAchievement = state.achievements.find(ach => ach.id === '1');
+          const allCompleted = checkAllAchievementsCompleted(state.logros);
+          const darkSoulAchievement = state.logros.find(ach => ach.id === '1');
           
           if (allCompleted && darkSoulAchievement && !darkSoulAchievement.completed) {
             darkSoulAchievement.completed = true;
@@ -383,9 +383,9 @@ const achievementsSlice = createSlice({
     },
     
     // Nueva acción para forzar la verificación de todos los logros
-    checkAllAchievements: (state) => {
-      const allCompleted = checkAllAchievementsCompleted(state.achievements);
-      const darkSoulAchievement = state.achievements.find(ach => ach.id === '1');
+    verificarTodosLosLogros: (state) => {
+      const allCompleted = checkAllAchievementsCompleted(state.logros);
+      const darkSoulAchievement = state.logros.find(ach => ach.id === '1');
       
       if (darkSoulAchievement) {
         darkSoulAchievement.completed = allCompleted;
@@ -395,18 +395,18 @@ const achievementsSlice = createSlice({
 });
 
 export const { 
-  addBoss, 
-  updateBoss, 
-  deleteBoss, 
-  toggleBossCompletion, 
-  incrementAttempts 
-} = bossesSlice.actions;
+  agregarJefe, 
+  actualizarJefe, 
+  eliminarJefe, 
+  alternarJefeCompletado, 
+  incrementarIntentos 
+} = jefesSlice.actions;
 
-export const { toggleAchievement, checkAllAchievements } = achievementsSlice.actions;
+export const { alternarLogro, verificarTodosLosLogros } = logrosSlice.actions;
 
 export const store = configureStore({
   reducer: {
-    bosses: bossesSlice.reducer,
-    achievements: achievementsSlice.reducer
+    jefes: jefesSlice.reducer,
+    logros: logrosSlice.reducer
   }
 });

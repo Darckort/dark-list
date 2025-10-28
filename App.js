@@ -1,15 +1,15 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './src/store';
-import AppNavigator from './src/navigation/AppNavigator';
-import { ThemeProvider } from './src/context/ThemeContext';
+import AppNavigator from './src/navigation/NavegadorApp';
+import { ProveedorTema } from './src/context/ContextoTema';
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ProveedorTema>
       <Provider store={store}>
         <AppNavigator />
       </Provider>
-    </ThemeProvider>
+    </ProveedorTema>
   );
 }
